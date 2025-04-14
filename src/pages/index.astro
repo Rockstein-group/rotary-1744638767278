@@ -1,0 +1,163 @@
+---
+import Seo from "../components/Seo.astro";
+
+import '../styles/global.css';
+---
+
+<html lang="en">
+	<head>
+		
+        <script>
+        import { showToast } from "../components/toast";
+        (() => {
+          const els = [...document.querySelectorAll('form')];
+          if (!els?.length) return;
+          els.forEach(el => {
+            el.addEventListener('submit', async (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target);
+              const formObject = Object.fromEntries(formData);
+              formObject.emailUser = "simon.c@green-web.fr";
+              try {
+                const response = await fetch('undefined/api/send-mail-contact', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(formObject)
+                });
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+                const result = await response.json();
+                showToast('Form submitted successfully!');
+              } catch (error) {
+                console.error('Error submitting form:', error);
+                showToast('Error submitting form', 'error');
+              }
+            });
+          });
+        })();
+      </script>
+      <script>
+      class LazyLoad extends HTMLElement {
+        constructor() {
+          super();
+          class HeadlessDetect {
+            allTestFunctions = [
+              "testUserAgent",
+              "testChromeWindow",
+              "testPlugins",
+              "testAppVersion",
+              "testConnectionRtt",
+            ];
+
+            constructor() {}
+
+            testUserAgent() {
+              if (/Headless/.test(window.navigator.userAgent)) {
+                return 1;
+              } else {
+                return 0;
+              }
+            }
+
+            testChromeWindow() {
+              // @ts-ignore
+              if (eval.toString().length == 33 && !window.chrome) {
+                return 1;
+              } else {
+                return 0;
+              }
+            }
+
+            testNotificationPermissions(callback) {
+              navigator.permissions
+                .query({ name: "notifications" })
+                .then(function (permissionStatus) {
+                  if (
+                    Notification.permission === "denied" &&
+                    permissionStatus.state === "prompt"
+                  ) {
+                    // Headless
+                    callback(1);
+                  } else {
+                    // Not Headless
+                    callback(0);
+                  }
+                });
+            }
+
+            testPlugins() {
+              let length = navigator.plugins.length;
+
+              return length === 0 ? 1 : 0;
+            }
+
+            testAppVersion() {
+              let appVersion = navigator.appVersion;
+
+              return /headless/i.test(appVersion) ? 1 : 0;
+            }
+
+            // Connection Rtt
+            testConnectionRtt() {
+              // @ts-ignore
+              let connection = navigator.connection;
+              let connectionRtt = connection ? connection.rtt : undefined;
+
+              if (connectionRtt === undefined) {
+                return 0;
+              } else {
+                return connectionRtt === 0 ? 1 : 0;
+              }
+            }
+
+            getHeadlessScore() {
+              let score = 0;
+              let testsRun = 0;
+
+              this.testNotificationPermissions(function (v) {
+                score += v;
+                testsRun++;
+              });
+
+              for (let i = 0; i < this.allTestFunctions.length; i++) {
+                score += this[this.allTestFunctions[i]].apply();
+                testsRun++;
+              }
+
+              return score / testsRun;
+            }
+          }
+          const headlessDetector = new HeadlessDetect();
+          if (headlessDetector.getHeadlessScore() > 0.25) {
+            while (this.firstChild) {
+              this.removeChild(this.firstChild);
+            }
+          }
+        }
+      }
+
+      customElements.define("lazy-load", LazyLoad);
+    </script>
+        <Seo seo={{ title: "EcoBuilder", description: "Page description", keywords: "", canonical: "", image: '', type: "website", themeColor: "#ffffff"}} />
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/x-icon" href=/favicons/1744638654257_1743022996989.ico /> 
+		<!-- <link
+			rel="icon"
+			type="image/svg+xml"
+			href="/favicon.svg"
+		/> -->
+		<meta
+			name="viewport"
+			content="width=device-width"
+		/>
+		<meta
+			name="generator"
+			content={Astro.generator}
+		/>
+		<title>Astro</title>
+	</head>
+	<body> <header class="flex flex-col relative shrink-0 box-border h-auto empty:min-h-[30vh] before:content-[&#x27;Header&#x27;] before:absolute before:top-0 before:left-0 before:inline-block before:py-1 before:px-2 before:bg-black/20 before:text-white before:text-sm before:rounded before:!rounded-tl-none before:!rounded-bl-none mb-[1px] header-section"><div class="header-component min-h-16 bg-gray-100 dark:bg-black py-4" aria-label="Header Menu Left Section"><div class="mx-auto flex h-auto max-w-screen-2xl items-center gap-8 px-4 sm:px-6 lg:px-8" aria-label="Container for the header menu left"><div aria-label="Logo Container"><a href="#" width="auto" height="auto" class="flex items-center justify-center text-center font-bold text-[#AECA0E]" aria-label="Go to homepage">Eco Builder</a></div><div class="flex flex-1 items-center justify-end md:justify-between" aria-label="Navigation links container"><nav aria-label="Global navigation menu" class="hidden md:block"><ul class="flex items-center gap-6 text-sm" aria-label="List of navigation links"><a href="#" width="auto" height="auto" class="text-gray-500 transition hover:text-[#AECA0E] dark:text-white" aria-label="About page link">About</a><a href="#" width="auto" height="auto" class="text-gray-500 transition hover:text-[#AECA0E] dark:text-white" aria-label="Careers page link">Careers</a><a href="#" width="auto" height="auto" class="text-gray-500 transition hover:text-[#AECA0E] dark:text-white" aria-label="History page link">History</a><a href="#" width="auto" height="auto" class="text-gray-500 transition hover:text-[#AECA0E] dark:text-white" aria-label="Services page link">Services</a><a href="#" width="auto" height="auto" class="text-gray-500 transition hover:text-[#AECA0E] dark:text-white" aria-label="Projects page link">Projects</a><a href="#" width="auto" height="auto" class="text-gray-500 transition hover:text-[#AECA0E] dark:text-white" aria-label="Blog page link">Blog</a></ul></nav><div class="flex items-center gap-4" aria-label="Authentication buttons container"><div class="sm:flex sm:gap-4" aria-label="Authentication links"><a href="#" width="auto" height="auto" class="flex items-center justify-center text-center rounded-md bg-[#AECA0E] px-5 py-2.5 text-sm font-medium text-white transition hover:bg-[#AECA0E]/80" aria-label="Login page link">Login</a><div class="hidden sm:flex" aria-label="Register button container"><a href="#" width="auto" height="auto" class="md:flex lg:flex items-center justify-center text-center hidden rounded-md bg-gray-300 px-5 py-2.5 text-sm font-medium text-black transition hover:bg-gray-400 dark:bg-white sm:block" aria-label="Register page link">Register</a></div></div><div class="block md:hidden" aria-label="Mobile menu toggle button container"><button width="auto" height="auto" class="rounded bg-gray-300 p-2 text-gray-600 transition hover:text-gray-600/75" aria-label="Toggle mobile menu visibility"></button></div></div></div></div></div></header><main class="flex flex-col relative shrink-0 box-border h-auto empty:min-h-[30vh] before:content-[&#x27;Main&#x27;] before:absolute before:top-0 before:left-0 before:inline-block before:py-1 before:px-2 before:bg-black/20 before:text-white before:text-sm before:rounded before:!rounded-tl-none before:!rounded-bl-none mb-[1px] main-section"><section><section class="main-component relative bg-[url(/images/bg-banner-1.webp)] bg-cover bg-center bg-no-repeat" aria-label="Hero Banner with Overlay Image Section"><div class="absolute inset-0 bg-gradient-to-r from-white to-transparent dark:from-black" aria-label="Background overlay for Hero Banner"></div><div class="relative mx-auto max-w-screen-2xl px-4 py-32 sm:px-6 lg:flex lg:items-center lg:px-8" aria-label="Container for Hero Banner content"><div class="max-w-xl text-center sm:text-left flex flex-col items-start" aria-label="Text content container in Hero Banner"><div class="text-3xl font-extrabold sm:text-5xl flex flex-col items-start" aria-label="Container for Hero Banner title"><p width="auto" height="auto" class="text-3xl font-extrabold sm:text-5xl text-gray-800 dark:text-white" aria-label="Main title of Hero Banner">Bienvenue</p><p width="auto" height="auto" class="block text-3xl font-extrabold text-[#AECA0E] sm:text-5xl" aria-label="Subtitle of Hero Banner">Au rotary club!</p></div><p width="auto" height="auto" class="text-center sm:text-left sm:text-xl/relaxed text-gray-800 dark:text-white mt-0" aria-label="Content describing the Hero Banner" cssResizer="!flex-shrink mt-4">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt illo tenetur fuga ducimus numquam ea!</p><div class="flex items-start gap-4 mt-8" aria-label="Buttons section for Hero Banner"><a href="#" width="auto" height="auto" class="flex items-center justify-center text-center w-full rounded bg-[#AECA0E] px-12 py-3 text-sm font-medium text-white shadow hover:bg-[#AECA0E] focus:outline-none focus:ring active:bg-[#AECA0E] sm:w-auto " aria-label="Get Started button" cssResizer="!flex-shrink" cssWrap="w-full text-center">Get Started</a><a href="#" width="auto" height="auto" class="flex items-center justify-center text-center w-full rounded bg-white px-12 py-3 text-sm font-medium text-[#AECA0E] shadow hover:text-[#AECA0E] focus:outline-none focus:ring active:text-[#AECA0E] sm:w-auto" aria-label="Learn More button" cssResizer="!flex-shrink" cssWrap="w-full text-center">Learn More</a></div></div></div></section></section></main><lazy-load><footer><div class="footer-component bg-gray-100 dark:bg-black" aria-labelledby="footerCenterBrandTitle"><div class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 text-center flex flex-col items-center" aria-label="Footer container"><a href="#" width="auto" height="auto" class="inline-flex justify-center text-center font-bold text-[#AECA0E]" aria-label="Eco Builder brand link">Eco Builder</a><p width="auto" height="auto" class="text-center leading-relaxed text-gray-500 dark:text-gray-100 mt-0" aria-label="Footer description text" cssResizer="!flex-shrink mt-6 mx-auto">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt consequuntur amet culpa cum itaque neque.</p><ul class="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12" aria-label="Footer links list"><a href="#" width="auto" height="auto" class="text-gray-700 transition hover:text-[#AECA0E] dark:text-gray-300" aria-label="About page link">About</a><a href="#" width="auto" height="auto" class="text-gray-700 transition hover:text-[#AECA0E] dark:text-gray-300" aria-label="Careers page link">Careers</a><a href="#" width="auto" height="auto" class="text-gray-700 transition hover:text-[#AECA0E] dark:text-gray-300" aria-label="History page link">History</a><a href="#" width="auto" height="auto" class="text-gray-700 transition hover:text-[#AECA0E] dark:text-gray-300" aria-label="Services page link">Services</a><a href="#" width="auto" height="auto" class="text-gray-700 transition hover:text-[#AECA0E] dark:text-gray-300" aria-label="Projects page link">Projects</a><a href="#" width="auto" height="auto" class="text-gray-700 transition hover:text-[#AECA0E] dark:text-gray-300" aria-label="Blog page link">Blog</a></ul><ul class="mt-12 flex justify-center gap-6 md:gap-8" aria-label="Footer social links"><a href="#" target="_blank" width="auto" height="auto" class="text-gray-700 dark:text-gray-300 transition hover:text-[#AECA0E]" rel="noreferrer"></a><a href="#" target="_blank" width="auto" height="auto" class="text-gray-700 dark:text-gray-300 transition hover:text-[#AECA0E]" rel="noreferrer"></a><a href="#" target="_blank" width="auto" height="auto" class="text-gray-700 dark:text-gray-300 transition hover:text-[#AECA0E]" rel="noreferrer"></a><a href="#" target="_blank" width="auto" height="auto" class="text-gray-700 dark:text-gray-300 transition hover:text-[#AECA0E]" rel="noreferrer"></a></ul></div></div></footer></lazy-load> </body>
+</html>
